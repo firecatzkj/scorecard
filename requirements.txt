@@ -1,0 +1,9 @@
+pandas==0.23.0
+pandas-profiling==1.4.2
+pyecharts==1.2.0
+pyecharts-javascripthon==0.0.6
+pyecharts-jupyter-installer==0.0.3
+pyecharts-snapshot==0.1.10
+xgboost==0.82
+patsy==0.5.1
+numpy==1.14.3

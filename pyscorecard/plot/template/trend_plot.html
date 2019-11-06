@@ -1,0 +1,38 @@
+{% import 'macro' as macro %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ xxxxxxxxx }}</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+
+        {% for sub in info %}
+            <h2>{{ sub["var"] }}</h2>
+            <div class="row">
+                <div class="col-md-push-4">
+                    {{ macro.render_chart_dependencies(sub["trend_iv"]) }}
+                    {{ macro.render_chart_content(sub["trend_iv"]) }}
+                </div>
+
+                <div class="col-md-offset-4">
+                    {{ macro.render_chart_dependencies(sub["trend_prop"]) }}
+                    {{ macro.render_chart_content(sub["trend_prop"]) }}
+                </div>
+
+                <div class="col-md-pull-4">
+                    {{ macro.render_chart_dependencies(sub["trend_badrate"]) }}
+                    {{ macro.render_chart_content(sub["trend_badrate"]) }}
+                </div>
+
+            </div>
+            </br>
+            </br>
+            </br>
+            </br>
+        {% endfor %}
+    </div>
+</body>
+</html>

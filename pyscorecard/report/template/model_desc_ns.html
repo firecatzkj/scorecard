@@ -1,0 +1,297 @@
+{% import 'macro' as macro %}
+<!DOCTYPE html>
+<html lang="en" xmlns:margin-left="http://www.w3.org/1999/xhtml" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    .fl-table {
+        margin: 20px;
+        border-radius: 5px;
+        font-size: 12px;
+        border: none;
+        border-collapse: collapse;
+        max-width: 100%;
+        white-space: nowrap;
+        word-break: keep-all;
+    }
+
+    .fl-table th {
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .fl-table tr {
+        display: table-row;
+        vertical-align: inherit;
+        border-color: inherit;
+    }
+
+    .fl-table tr:hover td {
+        background: #00d1b2;
+        color: #F8F8F8;
+    }
+
+    .fl-table td, .fl-table th {
+        border-style: none;
+        border-top: 1px solid #dbdbdb;
+        border-left: 1px solid #dbdbdb;
+        border-bottom: 3px solid #dbdbdb;
+        border-right: 1px solid #dbdbdb;
+        padding: .5em .55em;
+        font-size: 15px;
+    }
+
+    .fl-table td {
+        border-style: none;
+        font-size: 15px;
+        vertical-align: center;
+        border-bottom: 1px solid #dbdbdb;
+        border-left: 1px solid #dbdbdb;
+        border-right: 1px solid #dbdbdb;
+        height: 30px;
+    }
+
+    .fl-table tr:nth-child(even) {
+        background: #F8F8F8;
+    }
+</style>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--<script>-->
+    <!--document.getElementsByTagName('body')[0].style.zoom=0.67-->
+<!--</script>-->
+<p><h1>模型概述</h1></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="title" {{ overview_data.title_opts.title_style }}> {{ overview_data.title_opts.title }}</p>
+            <p class="subtitle" {{ overview_data.title_opts.subtitle_style }}> {{ overview_data.title_opts.subtitle }}</p>
+            {% for c in overview_data %}
+                {{ c }}
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <p><h3>Summary</h3></p>
+            {% for c in model_summary %}
+                {{ c }}
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <p><h3>模型表现</h3></p>
+            {% for c in ks_auc_data %}
+                {{ c }}
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-push-4">
+            <p><h4>训练集KS</h4></p>
+            {{ ks_auc_plot['ks_train'] }}
+        </div>
+
+        <div class="col-md-4">
+            <p><h4>测试集KS</h4></p>
+            {{ ks_auc_plot['ks_test'] }}
+        </div>
+
+        <div class="col-md-4">
+            <p><h4>时间外KS</h4></p>
+            {{ ks_auc_plot['ks_oot'] }}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-push-4">
+            <p><h4>训练集ROC</h4></p>
+            {{ ks_auc_plot['roc_train'] }}
+        </div>
+
+        <div class="col-md-4">
+            <p><h4>测试集ROC</h4></p>
+            {{ ks_auc_plot['roc_test'] }}
+        </div>
+
+        <div class="col-md-4">
+            <p><h4>时间外ROC</h4></p>
+            {{ ks_auc_plot['roc_oot'] }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ macro.render_chart_dependencies(accum_auc_chart) }}
+            {{ macro.render_chart_content(accum_auc_chart) }}
+        </div>
+    </div>
+
+
+    <p><h3>Lift Chart on Train|Test|Oot</h3></p>
+    <div class="row">
+        <div class="col-md-12" margin-left: 5px>
+            {{ macro.render_chart_dependencies(lift["lift_combine"]) }}
+            {{ macro.render_chart_content(lift["lift_combine"]) }}
+        </div>
+    </div>
+
+
+
+    <p>训练集Lift Chart</p>
+    <div class="row">
+        <div class="col-md-push-4" margin-left: 5px>
+            {{ macro.render_chart_dependencies(lift["train"]["chart"]) }}
+            {{ macro.render_chart_content(lift["train"]["chart"]) }}
+        </div>
+
+        <div class="col-md-4">
+            {% for c in lift["train"]["table"] %}
+                {{ c }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <p>测试集Lift Chart</p>
+    <div class="row">
+        <div class="col-md-push-4" margin-left: 5px>
+            {{ macro.render_chart_dependencies(lift["test"]["chart"]) }}
+            {{ macro.render_chart_content(lift["test"]["chart"]) }}
+        </div>
+
+        <div class="col-md-4">
+            {% for c in lift["test"]["table"] %}
+                {{ c }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <p>时间外Lift Chart</p>
+    <div class="row">
+        <div class="col-md-push-4" margin-left: 5px>
+            {{ macro.render_chart_dependencies(lift["oot"]["chart"]) }}
+            {{ macro.render_chart_content(lift["oot"]["chart"]) }}
+        </div>
+
+        <div class="col-md-4">
+            {% for c in lift["oot"]["table"] %}
+                {{ c }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <p>评分卡</p>
+    <div class="row">
+        <div class="col-md-12">
+            {% for c in scorecard_data %}
+                {{ c }}
+            {% endfor %}
+        </div>
+    </div>
+
+
+</div>
+
+
+<p><h1>变量概述</h1></p>
+<p><h3>模型变量相关性</h3></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            {{ macro.render_chart_dependencies(corr) }}
+            {{ macro.render_chart_content(corr) }}
+        </div>
+    </div>
+</div>
+
+
+<!--模型变量分bin情况-->
+<p>
+    <a href="bin_plot.html" target="_blank"><h3>模型变量分bin情况</h3></a>
+</p>
+
+<!--模型变量分bin情况-->
+<div class="panel-group" id="accordion">
+
+
+
+<!--模型变量EDA八张图-->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion"
+				   href="#collapseOne2">
+					模型变量EDA八张图(见报告文件夹)
+				</a>
+			</h3>
+		</div>
+
+
+        <div id="collapseOne2" class="panel-collapse collapse in">
+			<div class="panel-body">
+                {% for sub in eda_res %}
+                    <p><a href="eda/{{ sub['var'] }}.html" target="_blank">{{ sub['var'] }}</a></p>
+                {% endfor %}
+			</div>
+		</div>
+    </div>
+
+
+
+<!--模型变量Predict vs Actual-->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion"
+				   href="#collapseOne">
+					模型变量Predict vs Actual
+				</a>
+			</h3>
+		</div>
+		<div id="collapseOne" class="panel-collapse collapse in">
+			<div class="panel-body">
+				<div class="container-fluid">
+    <div class="row">
+        {% for sub in pva_res %}
+            <p>{{ sub["var"] }}</p>
+            <div class="col-md-12" margin-left:="15px">
+                {{ macro.render_chart_dependencies(sub["chart"]) }}
+                <style>.box { {{ sub["chart"].layout }} } </style>
+                <div class="box">
+                    {% for c in sub["chart"] %}
+                        {{ macro.render_chart_content(c) }}
+                    {% for _ in range(sub["chart"].page_interval) %}<br/>{% endfor %}
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+</body>
+</html>
+
+
+
+

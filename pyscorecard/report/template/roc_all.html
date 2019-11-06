@@ -1,0 +1,25 @@
+{% import 'macro' as macro %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>xxx</title>
+</head>
+<body>
+    <p>训练集</p>
+        {{ macro.render_chart_content(train) }}
+        {{ macro.render_chart_dependencies(train) }}
+    </br>
+
+    <p>测试集</p>
+        {{ macro.render_chart_content(test) }}
+        {{ macro.render_chart_dependencies(test) }}
+    </br>
+
+    <p>时间外</p>
+        {{ macro.render_chart_content(oot) }}
+        {{ macro.render_chart_dependencies(oot) }}
+    </br>
+
+</body>
+</html>

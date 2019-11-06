@@ -1,0 +1,105 @@
+{% import 'macro' as macro %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ xxxxxxxxx }}</title>
+    <style>
+        .fl-table {
+            margin: 20px;
+            border-radius: 5px;
+            font-size: 12px;
+            border: none;
+            border-collapse: collapse;
+            max-width: 100%;
+            white-space: nowrap;
+            word-break: keep-all;
+        }
+
+        .fl-table th {
+            text-align: left;
+            font-size: 20px;
+        }
+
+        .fl-table tr {
+            display: table-row;
+            vertical-align: inherit;
+            border-color: inherit;
+        }
+
+        .fl-table tr:hover td {
+            background: #00d1b2;
+            color: #F8F8F8;
+        }
+
+        .fl-table td, .fl-table th {
+            border-style: none;
+            border-top: 1px solid #dbdbdb;
+            border-left: 1px solid #dbdbdb;
+            border-bottom: 3px solid #dbdbdb;
+            border-right: 1px solid #dbdbdb;
+            padding: .5em .55em;
+            font-size: 15px;
+        }
+
+        .fl-table td {
+            border-style: none;
+            font-size: 15px;
+            vertical-align: center;
+            border-bottom: 1px solid #dbdbdb;
+            border-left: 1px solid #dbdbdb;
+            border-right: 1px solid #dbdbdb;
+            height: 30px;
+        }
+
+        .fl-table tr:nth-child(even) {
+            background: #F8F8F8;
+        }
+    </style>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+
+        {% for sub in info %}
+            <h2>{{ sub["varname"] }}</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ macro.render_chart_dependencies(sub["chart_badrate"]) }}
+                    {{ macro.render_chart_content(sub["chart_badrate"]) }}
+                </div>
+
+                <div class="col-md-12">
+                    {{ macro.render_chart_dependencies(sub["chart_diff"]) }}
+                    {{ macro.render_chart_content(sub["chart_diff"]) }}
+                </div>
+
+
+
+                <div class="col-md-12">
+                    {% for c in sub["chart_detail"] %}
+                        {{ c }}
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-12">
+                    {% for c in sub["chart_detail_freq"] %}
+                        {{ c }}
+                    {% endfor %}
+                </div>
+
+
+            </div>
+
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
